@@ -53,11 +53,11 @@ class WebServer(Script):
         self.configure(env)
 
     def stop(self, env):
-        Execute('cd {0} && bin/azkaban-web-shutdown.sh'.format(AZKABAN_HOME))
+        Execute('cd {0} && source /etc/hadoop/conf/hadoop-env.sh && source /etc/profile && bin/shutdown-web.sh'.format(AZKABAN_HOME))
 
     def start(self, env):
         self.configure(env)
-        Execute('cd {0} && bin/azkaban-web-start.sh'.format(AZKABAN_HOME))
+        Execute('cd {0} && source /etc/hadoop/conf/hadoop-env.sh && source /etc/profile && bin/start-web.sh'.format(AZKABAN_HOME))
 
     def status(self, env):
         try:

@@ -42,12 +42,14 @@ class ExecutorServer(Script):
         self.configure(env)
 
     def stop(self, env):
-        Execute('cd {0} && bin/azkaban-executor-shutdown.sh'.format(AZKABAN_HOME))
+        #Execute('cd {0} && bin/azkaban-executor-shutdown.sh'.format(AZKABAN_HOME))
+        Execute('cd {0} && source /etc/hadoop/conf/hadoop-env.sh && source /etc/profile && bin/shutdown-exec.sh'.format(AZKABAN_HOME))
 
     def start(self, env):
         from params import azkaban_executor_properties
         self.configure(env)
-        Execute('cd {0} && bin/azkaban-executor-start.sh'.format(AZKABAN_HOME))
+        Execute('cd {0} && source /etc/hadoop/conf/hadoop-env.sh && source /etc/profile && bin/start-exec.sh'.format(AZKABAN_HOME))
+	Execute('sleep 5s')
         Execute(
             'curl http://localhost:{0}/executor?action=activate'.format(azkaban_executor_properties['executor.port'])
         )
